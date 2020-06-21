@@ -1,44 +1,107 @@
-const screen = document.getElementById("screen");
-const context = screen.getContext("2d");
+const screen = document.getElementById('screen');
+const context = screen.getContext('2d');
 
-const currentPlayerId = "player1";
+const currentPlayerId = 'player1';
 const PLAYER_SIZE = 1;
 
 const game = createGame();
+game.addPlayer({ playerId: 'player1', playerX: 2, playerY: 5});
+game.addPlayer({ playerId: 'player2', playerX: 4, playerY: 1});
+game.addFruit({ fruitId: 'fruit1', fruitX: 7, fruitY: 5});
+game.addFruit({ fruitId: 'fruit2', fruitX: 3, fruitY: 8});
 
-function createGame() {    
+function createGame() {
     const state = {
-        players: {
-            "player1": { x: 1, y: 1 },
-            "player2": { x: 9, y: 9 },
-        },
-        fruits: {
-            "fruit1": { x: 3, y: 1 }
-        }
+        players: {},
+        fruits: {}
     };
 
+    function addPlayer(command) {
+        const { playerId, playerX, playerY } = command;
+
+        state.players[playerId] = {
+            x: playerX,
+            y: playerY
+        };
+    }
+
+    function removePlayer(command) {
+        const { playerId } = command;
+
+        delete state.players[playerId];
+    }
+    
+    function addFruit(command) {
+        const { fruitId, fruitX, fruitY } = command;
+
+        state.fruits[fruitId] = {
+            x: fruitX,
+            y: fruitY
+        };
+    }
+
+    function removeFruit(command) {
+        const { fruitId } = command;
+
+        delete state.fruits[fruitId];
+    }
+
     function movePlayer(command) {
-        console.log(`Moving ${command.playerId} with ${command.keyPressed}`);
+        const acceptedMoves = {
+            ArrowUp(player) {
+                if (player.y > 0) {
+                    player.y--;
+                }
+            },
+            ArrowDown(player) {
+                if (player.y + PLAYER_SIZE < screen.height) {
+                    player.y++;
+                }
+            },
+            ArrowLeft(player) {
+                if (player.x > 0) {
+                    player.x--;
+                }
+            },
+            ArrowRight(player) {
+                if (player.x + PLAYER_SIZE < screen.width) {
+                    player.x++;
+                }
+            }
+        };
 
-        const keyPressed = command.keyPressed;
-        const player = state.players[command.playerId];
+        const { keyPressed, playerId } = command;
 
-        if (keyPressed == "ArrowUp" && player.y > 0) {
-            player.y--;
+        const player = state.players[playerId];
+        const moveFunction = acceptedMoves[keyPressed];
+
+        if (player && moveFunction) {
+            moveFunction(player);
+            checkForFruitCollision(playerId);
         }
-        else if (keyPressed == "ArrowDown" && player.y + PLAYER_SIZE < screen.height) {
-            player.y++;
-        }
-        else if (keyPressed == "ArrowLeft" && player.x > 0) {
-            player.x--;
-        }
-        else if (keyPressed == "ArrowRight" && player.x + PLAYER_SIZE < screen.width) {
-            player.x++;
+    }
+
+    function checkForFruitCollision(playerId) {
+        const player = state.players[playerId];
+
+        for (const fruitId in state.fruits) {
+            const fruit = state.fruits[fruitId];
+
+            console.log(`Checking for collision between player '${playerId}' and fruit '${fruitId}'`);
+
+            if (player.x == fruit.x && player.y == fruit.y) {
+                console.log(`COLLISION: player '${playerId}' - fruit '${fruitId}'`);
+                removeFruit({ fruitId });
+            }
         }
     }
 
     return {
         state,
+        addPlayer,
+        removePlayer,
+        addFruit,
+        removeFruit,
         movePlayer
     };
 }
@@ -56,23 +119,21 @@ function createKeyboardListener() {
     }
 
     function notifyAll(command) {
-        console.log(`Notifying ${state.observers.length} observers`);
-
         for (const observerFunction of state.observers) {
             observerFunction(command);
         }
     }
 
-    document.addEventListener("keydown", handleKeydown);
+    document.addEventListener('keydown', handleKeydown);
 
     function handleKeydown(event) {
         const keyPressed = event.key;
-        
+
         const command = {
             playerId: currentPlayerId,
             keyPressed
         };
-    
+
         notifyAll(command);
     }
 
@@ -86,13 +147,13 @@ function createKeyboardListener() {
 
     for (const playerId in game.state.players) {
         const player = game.state.players[playerId];
-        context.fillStyle = "black";
+        context.fillStyle = 'black';
         context.fillRect(player.x, player.y, PLAYER_SIZE, PLAYER_SIZE);
     }
 
     for (const fruitId in game.state.fruits) {
         const fruit = game.state.fruits[fruitId];
-        context.fillStyle = "green";
+        context.fillStyle = 'green';
         context.fillRect(fruit.x, fruit.y, PLAYER_SIZE, PLAYER_SIZE);
     }
 
