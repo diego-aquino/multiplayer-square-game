@@ -7,7 +7,7 @@ export default function renderScreen(screen, game, requestAnimationFrame) {
 
     for (const playerId in game.state.players) {
         const player = game.state.players[playerId];
-        context.fillStyle = 'black';
+        context.fillStyle = 'white';
         context.fillRect(player.x, player.y, PLAYER_SIZE, PLAYER_SIZE);
     }
 
