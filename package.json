@@ -1,0 +1,25 @@
+{
+  "name": "multiplayer-square-game",
+  "version": "1.0.0",
+  "description": "This is a simple, yet insightful game developed as a way to learn and practice critical concepts regarding to software arquiteture and software development.",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/diego-aquino/multiplayer-square-game.git"
+  },
+  "author": "Diego Aquino",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/diego-aquino/multiplayer-square-game/issues"
+  },
+  "homepage": "https://github.com/diego-aquino/multiplayer-square-game#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "nodemon": "^2.0.4",
+    "socket.io": "^2.3.0"
+  }
+}
