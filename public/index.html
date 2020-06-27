@@ -7,20 +7,30 @@
     <title>Multiplayer Square Game</title>
 
     <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            width: 100vw;
+            height: 100vh;
+        }
+
         #screen {
             border: 10px solid #CCC;
             image-rendering: pixelated;
             image-rendering: crisp-edges;
             image-rendering: -moz-crisp-edges;
-            width: 400px;
-            height: 400px;
+
+            width: 500px;
+            height: 500px;
         }
     </style>
     <script src="/socket.io/socket.io.js"></script>
 </head>
 
 <body>
-    <canvas id="screen" width="10" height="10"></canvas>
+    <canvas id="screen"></canvas>
 
     <script type="module">
 
@@ -30,20 +40,30 @@
 
         const game = createGame();
         const keyboardListener = createKeyboardListener(document);
-
+        
         const socket = io();
 
-        socket.on('connect', () => {
+        const screen = document.getElementById('screen');
+
+        socket.on('connect', command => {
             const playerId = socket.id;
             console.log(`You are now: ${playerId}`);
 
-            const screen = document.getElementById('screen');
             renderScreen(screen, game, requestAnimationFrame, playerId);
         });
 
-        socket.on('setup', state => {
+        socket.on('disconnect', () => {
+            keyboardListener.unsubscribleAll();
+        });
+
+        socket.on('setup', command => {
+            const { state, screenWidth, screenHeight } = command;
+            
             const playerId = socket.id;
             game.setState(state);
+
+            screen.setAttribute('width', `${screenWidth}px`);
+            screen.setAttribute('height', `${screenHeight}px`);
 
             keyboardListener.registerPlayerId(playerId);
             keyboardListener.subscribe(game.movePlayer);
