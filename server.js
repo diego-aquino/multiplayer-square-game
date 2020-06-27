@@ -24,7 +24,11 @@ sockets.on('connection', (socket) => {
 
     game.addPlayer({ playerId });
 
-    socket.emit('setup', game.state);
+    socket.emit('setup', {
+        state: game.state,
+        screenWidth: game.state.screen.width,
+        screenHeight: game.state.screen.height
+    });
 
     socket.on('disconnect', () => {
         game.removePlayer({ playerId });
