@@ -115,20 +115,32 @@ export default function createGame() {
                 if (player.y > 0) {
                     player.y--;
                 }
+                else if (player.y == 0) {
+                    player.y = state.screen.height - 1;
+                }
             },
             ArrowDown(player) {
                 if (player.y + PLAYER_SIZE < state.screen.height) {
                     player.y++;
+                }
+                else if (player.y + PLAYER_SIZE == state.screen.height) {
+                    player.y = 0;
                 }
             },
             ArrowLeft(player) {
                 if (player.x > 0) {
                     player.x--;
                 }
+                else if (player.x == 0) {
+                    player.x = state.screen.width - 1;
+                }
             },
             ArrowRight(player) {
                 if (player.x + PLAYER_SIZE < state.screen.width) {
                     player.x++;
+                }
+                else if (player.x + PLAYER_SIZE == state.screen.width) {
+                    player.x = 0;
                 }
             }
         };
