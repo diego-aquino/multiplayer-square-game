@@ -40,7 +40,7 @@
 
         const game = createGame();
         const keyboardListener = createKeyboardListener(document);
-        
+
         const socket = io();
 
         const screen = document.getElementById('screen');
@@ -58,7 +58,7 @@
 
         socket.on('setup', command => {
             const { state, screenWidth, screenHeight } = command;
-            
+
             const playerId = socket.id;
             game.setState(state);
 
