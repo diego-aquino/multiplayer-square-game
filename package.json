@@ -1,11 +1,10 @@
 {
   "name": "multiplayer-square-game",
   "version": "1.0.0",
-  "description": "This is a simple, yet insightful game developed as a way to learn and practice critical concepts regarding to software arquiteture and software development.",
+  "description": "Simple, yet insightful game developed as a way to learn and practice critical concepts regarding to software architecture and software development.",
   "main": "server.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon server.js"
   },
   "repository": {
