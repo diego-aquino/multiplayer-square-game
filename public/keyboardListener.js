@@ -12,7 +12,7 @@ export default function createKeyboardListener(document) {
         state.observers.push(observerFunction);
     }
 
-    function unsubscribleAll() {
+    function unsubscribeAll() {
         state.observers.length = 0;
     }
 
@@ -24,7 +24,7 @@ export default function createKeyboardListener(document) {
 
     document.addEventListener('keydown', handleKeydown);
 
-    function handleKeydown(event) {       
+    function handleKeydown(event) {
         const keyPressed = event.key;
         const command = {
             type: 'move-player',
@@ -37,7 +37,7 @@ export default function createKeyboardListener(document) {
 
     return {
         subscribe,
-        unsubscribleAll,
+        unsubscribeAll,
         registerPlayerId
     };
 }

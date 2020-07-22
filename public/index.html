@@ -53,7 +53,7 @@
         });
 
         socket.on('disconnect', () => {
-            keyboardListener.unsubscribleAll();
+            keyboardListener.unsubscribeAll();
         });
 
         socket.on('setup', command => {
