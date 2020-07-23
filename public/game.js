@@ -8,6 +8,8 @@ export default function createGame() {
         fruits: {},
         numberOfFruits: 0,
 
+        playerRanking: [],
+
         screen: {
             width: 10,
             height: 10
@@ -40,9 +42,10 @@ export default function createGame() {
         state.players[playerId] = {
             x: playerX,
             y: playerY,
-            points: 0
+            points: 0,
+            rankingPosition: state.numberOfPlayers++
         };
-        state.numberOfPlayers++;
+        state.playerRanking.push(playerId);
 
         notifyAll({
             type: 'add-player',
@@ -56,13 +59,30 @@ export default function createGame() {
         const { playerId } = command;
 
         if (state.players[playerId]) {
+            removeFromRanking(playerId);
+
             delete state.players[playerId];
             state.numberOfPlayers--;
+
+            updateAllPlayersRankingPositions();
 
             notifyAll({
                 type: 'remove-player',
                 playerId
             });
+        }
+
+        function removeFromRanking(playerToRemoveId) {
+            const playerToRemove = state.players[playerToRemoveId];
+            state.playerRanking.splice(playerToRemove.rankingPosition, 1);
+        }
+
+        function updateAllPlayersRankingPositions() {
+            for (let i = 0; i < state.playerRanking.length; i++) {
+                const playerId = state.playerRanking[i];
+                const player = state.players[playerId];
+                player.rankingPosition = i;
+            }
         }
     }
 
@@ -179,6 +199,26 @@ export default function createGame() {
         const player = state.players[playerId];
 
         player.points += rewardPoints;
+
+        updateRanking(playerId);
+
+        notifyAll({
+            type: 'update-ranking'
+        });
+    }
+
+    function updateRanking(rewardedPlayerId) {
+        const rewardedPlayer = state.players[rewardedPlayerId];
+
+        while (rewardedPlayer.rankingPosition > 0) {
+            const playerAboveId = state.playerRanking[rewardedPlayer.rankingPosition - 1];
+            const playerAbove = state.players[playerAboveId];
+
+            if (rewardedPlayer.points <= playerAbove.points) return;
+
+            state.playerRanking[--rewardedPlayer.rankingPosition] = rewardedPlayerId;
+            state.playerRanking[++playerAbove.rankingPosition] = playerAboveId;
+        }
     }
 
     return {
