@@ -1,10 +1,19 @@
-body {
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+
+    font-family: Cabin, sans-serif;
+}
+
+main {
     display: flex;
     align-items: center;
     justify-content: center;
 
-    width: 100vw;
-    height: 100vh;
+    width: 90vw;
+    height: 90vh;
+    margin: 5vh 5vw;
 }
 
 #screen {
@@ -13,6 +22,42 @@ body {
     image-rendering: crisp-edges;
     image-rendering: -moz-crisp-edges;
 
-    width: 500px;
-    height: 500px;
+    width: 400px;
+    height: 400px;
+}
+
+#ranking-container {
+    width: 250px;
+    height: 400px;
+
+    background-color: rgb(226, 226, 226);
+    border-radius: 7px;
+
+    margin-left: 75px;
+}
+
+#ranking-title {
+    font-size: 30px;
+    text-align: center;
+
+    margin: 20px 0 10px;
+}
+
+#separator {
+    width: 90%;
+    height: 1px;
+    margin: 0 auto;
+
+    background-color: black;
+    opacity: 0.25;
+}
+
+#ranking-ul {
+    height: 100%;
+    padding: 20px 25px;
+    list-style: none;
+}
+
+#ranking-ul li {
+    display: block;
 }
