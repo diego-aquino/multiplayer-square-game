@@ -37,8 +37,8 @@
 - Player movements across the playable area
 - Random fruit generation
 - Multiplayer mode support (using [socket.io](https://github.com/socketio/socket.io))
-- Point reward by collecting fruits *[In development...]*
-- Realtime player ranking *[In development...]*
+- Point reward by collecting fruits
+- Realtime player ranking
 
 ## :gear: Technologies
 
