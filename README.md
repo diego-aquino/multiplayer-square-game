@@ -4,6 +4,8 @@
 
 <p align="center">Simple, yet insightful game developed as a way to learn and practice critical concepts regarding to software architecture and software development.</p>
 
+
+
 <p align="center">
 
 <a href="https://github.com/diego-aquino">
@@ -30,7 +32,7 @@
 <a href="#handshake-acknowledgments">Acknowledgments</a>
 </p>
 
-<!-- <img alt="Demonstration Gif" src=".github/demo.gif"> -->
+<img alt="Demonstration Gif" src=".github/demo.gif">
 
 ## :rocket: Features
 
